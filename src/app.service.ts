@@ -1,6 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 
+import { IPagamento } from './models';
+
 @Injectable()
 export class AppService {
   constructor(
@@ -10,16 +12,16 @@ export class AppService {
     private readonly activePlansClient: ClientProxy,
   ) {}
 
-  sendManagementEvent() {
+  sendManagementEvent(payment: IPagamento) {
     this.managementClient.emit('PagamentoPlanoServicoGestao', {
-      // ...payment,
+      ...payment,
       timestamp: new Date(),
     });
   }
 
-  sendActivePlansEvent() {
+  sendActivePlansEvent(payment: IPagamento) {
     this.activePlansClient.emit('PagamentoPlanoServicoPlanosAtivos', {
-      // ...payment,
+      ...payment,
       timestamp: new Date(),
     });
   }

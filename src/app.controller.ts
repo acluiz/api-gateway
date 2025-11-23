@@ -1,17 +1,15 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+
+import type { IPagamento } from './models';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Post('gestao/evento')
-  sendManagementEvent() {
-    this.appService.sendManagementEvent();
-  }
-
-  @Post('planos-ativos/evento')
-  sendActivePlansEvent() {
-    this.appService.sendActivePlansEvent();
+  @Post('pagamento/evento')
+  sendManagementEvent(@Body() payment: IPagamento) {
+    this.appService.sendManagementEvent(payment);
+    this.appService.sendActivePlansEvent(payment);
   }
 }
